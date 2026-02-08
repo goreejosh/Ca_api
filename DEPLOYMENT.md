@@ -13,7 +13,6 @@ This service is intended to run **standalone** on a dedicated server/service, se
 
 - `PORT` (default `4000`)
 - `REDIS_URL` (enables rate limiting; if unset, rate limiting is skipped)
-- `CORS_ALLOW_ORIGINS` (comma-separated allowlist)
 - `SUPABASE_FETCH_TIMEOUT_MS`
 
 ## Deploy (Railway / nixpacks)

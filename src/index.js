@@ -7,33 +7,21 @@ const aiApiRoutes = require('./routes/aiApiRoutes');
 const aiApiDocsRoutes = require('./routes/aiApiDocs');
 const aiApiWebhooksRoutes = require('./routes/aiApiWebhooks');
 
-function buildCorsOptionsFromEnv() {
-  const raw = (process.env.CORS_ALLOW_ORIGINS || '').trim();
-  if (!raw) {
-    return { origin: true, credentials: false };
-  }
-  const allow = new Set(
-    raw
-      .split(',')
-      .map(s => s.trim())
-      .filter(Boolean)
-  );
-
-  return {
-    origin(origin, cb) {
-      // Allow non-browser requests (no Origin header)
-      if (!origin) return cb(null, true);
-      return cb(null, allow.has(origin));
-    },
-    credentials: false,
-  };
-}
+// NOTE: This API is intended for external users from anywhere.
+// We keep CORS wide-open (no allowlist) and rely on API keys for auth.
+const CORS_OPTIONS = {
+  origin: '*',
+  credentials: false,
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Authorization', 'Content-Type'],
+  maxAge: 86400,
+};
 
 function createApp() {
   const app = express();
   app.set('trust proxy', true);
 
-  app.use(cors(buildCorsOptionsFromEnv()));
+  app.use(cors(CORS_OPTIONS));
   app.use(express.json({ limit: '2mb' }));
 
   app.get('/health', (req, res) => res.json({ ok: true }));

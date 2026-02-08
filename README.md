@@ -30,7 +30,7 @@ Create a `.env` file (see `.env.example`):
 - `SHIPSTATION_API_KEY`
 - `SHIPSTATION_API_SECRET`
 - `REDIS_URL` (optional, rate limit fail-open)
-- `CORS_ALLOW_ORIGINS` (optional, comma-separated)
+- `PUBLIC_API_BASE_URL` (optional; only affects `servers[].url` in `/api/v1/openapi.json`)
 - `AI_API_DEBUG` (optional)
 
 ## Local run

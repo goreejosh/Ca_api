@@ -49,7 +49,18 @@ let openapiLoadError = null;
 // GET /api/v1/openapi.json
 router.get('/openapi.json', (req, res) => {
   if (openapi) {
-    return res.json(openapi);
+    // Return a copy with the deployed base URL filled in.
+    // This is only for documentation clients; API routing does not depend on this.
+    const publicBaseUrl = (process.env.PUBLIC_API_BASE_URL || '').trim();
+    const inferredBase = `${req.protocol}://${req.get('host')}/api/v1`;
+    const rawBase = publicBaseUrl || inferredBase;
+    const baseUrl = rawBase.endsWith('/api/v1') ? rawBase : `${rawBase.replace(/\/+$/, '')}/api/v1`;
+
+    const withServers = {
+      ...openapi,
+      servers: [{ url: baseUrl }],
+    };
+    return res.json(withServers);
   }
   res.status(500).json({ error: 'OpenAPI specification file is missing on server', details: openapiLoadError });
 });
