@@ -1,0 +1,9 @@
+[phases.install]
+cmds = [
+  "rm -rf node_modules package-lock.json",
+  "npm install --only=production"
+]
+
+[start]
+cmd = "npm start"
+
