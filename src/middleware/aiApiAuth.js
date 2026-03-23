@@ -146,6 +146,27 @@ function testKeyInterceptor(req, res, next) {
   res.json = function jsonOverride(data) {
     const path = req.path || '';
 
+    // POD product endpoints
+    if (path.match(/^\/pod\/products\/[^\/]+\/fulfillment-cost$/)) {
+      return originalJson.call(this, {
+        sku: req.params.sku || 'TEST-SKU-001',
+        fulfillment_cost: 4.25,
+        fulfillment_cost_raw: '4.25',
+      });
+    }
+    if (path.match(/^\/pod\/products\/[^\/]+\/cost$/)) {
+      return originalJson.call(this, {
+        sku: req.params.sku || 'TEST-SKU-001',
+        cost: 2.1,
+      });
+    }
+    if (path.match(/^\/pod\/products\/[^\/]+\/inventory$/)) {
+      return originalJson.call(this, {
+        sku: req.params.sku || 'TEST-SKU-001',
+        available: 87,
+      });
+    }
+
     // Inventory totals endpoints
     if (path.startsWith('/inventory/totals')) {
       if (path.match(/\/inventory\/totals\/[^\/]+$/)) {

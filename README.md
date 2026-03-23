@@ -12,6 +12,9 @@ Standalone Express service for external companies to integrate with Completeful/
   - `GET /api/v1/inventory/totals/:sku`
   - `GET /api/v1/products`
   - `POST /api/v1/products`
+  - `GET /api/v1/pod/products/:sku/fulfillment-cost`
+  - `GET /api/v1/pod/products/:sku/cost`
+  - `GET /api/v1/pod/products/:sku/inventory`
   - `POST /api/v1/orders`
   - `GET /api/v1/orders/:orderNumber`
   - `PATCH /api/v1/orders/:orderNumber/address`
@@ -19,6 +22,8 @@ Standalone Express service for external companies to integrate with Completeful/
   - `POST /api/v1/returns`
   - `POST /api/v1/webhooks`
   - `GET /api/v1/webhooks`
+
+POD product SKU lookups are case-insensitive.
 
 ## Environment
 

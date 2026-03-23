@@ -16,6 +16,8 @@ const clientInventoryTotalsApi = require('./ClientInventoryTotalsApi');
 router.use('/inventory', clientInventoryTotalsApi);
 const clientInventorySingleProductTotalApi = require('./ClientInventorySingleProductTotalApi');
 router.use('/inventory', clientInventorySingleProductTotalApi);
+const podRoutes = require('./podRoutes');
+router.use('/pod', podRoutes);
 const clientUpdateAddressApi = require('./ClientUpdateAddressApi');
 router.use('/', clientUpdateAddressApi);
 const clientCancelOrderApi = require('./ClientCancelOrderApi');

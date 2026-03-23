@@ -107,6 +107,22 @@ components:
             order_number: { type: string }
             rma: { type: string, nullable: true }
             tracking_number: { type: string, nullable: true }
+    PodProductFulfillmentCostResponse:
+      type: object
+      properties:
+        sku: { type: string }
+        fulfillment_cost: { type: number, nullable: true }
+        fulfillment_cost_raw: { type: string, nullable: true }
+    PodProductCostResponse:
+      type: object
+      properties:
+        sku: { type: string }
+        cost: { type: number, nullable: true }
+    PodProductInventoryResponse:
+      type: object
+      properties:
+        sku: { type: string }
+        available: { type: integer }
 paths:
   /inventory:
     get:
@@ -213,6 +229,60 @@ paths:
       responses:
         '201':
           description: Product created
+  /pod/products/{sku}/fulfillment-cost:
+    get:
+      summary: Get POD product fulfillment cost by SKU
+      description: Case-insensitive SKU lookup against the global products table.
+      parameters:
+        - in: path
+          name: sku
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: POD product fulfillment cost
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PodProductFulfillmentCostResponse'
+        '404':
+          description: Product not found
+  /pod/products/{sku}/cost:
+    get:
+      summary: Get POD product cost by SKU
+      description: Case-insensitive SKU lookup against the global products table.
+      parameters:
+        - in: path
+          name: sku
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: POD product cost
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PodProductCostResponse'
+        '404':
+          description: Product not found
+  /pod/products/{sku}/inventory:
+    get:
+      summary: Get POD product available inventory by SKU
+      description: Case-insensitive SKU lookup against the global products table.
+      parameters:
+        - in: path
+          name: sku
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: POD product inventory
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PodProductInventoryResponse'
+        '404':
+          description: Product not found
   /orders:
     post:
       summary: Create order
